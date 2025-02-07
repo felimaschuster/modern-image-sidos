@@ -5,17 +5,28 @@ import { DashboardCard } from "@/components/DashboardCard";
 import { BarChart2, Moon, Settings, Sun } from "lucide-react";
 import { Toggle } from "@/components/ui/toggle";
 import { useTheme } from "next-themes";
+import { useEffect, useState } from "react";
 
 const Index = () => {
   const { theme, setTheme } = useTheme();
+  const [mounted, setMounted] = useState(false);
+
+  // Previne flash de conteúdo incorreto antes do tema ser carregado
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   const toggleTheme = () => {
     setTheme(theme === "light" ? "dark" : "light");
   };
 
+  if (!mounted) {
+    return null;
+  }
+
   return (
     <SidebarProvider>
-      <div className="min-h-screen flex w-full">
+      <div className="min-h-screen flex w-full bg-background">
         <AppSidebar />
         <main className="flex-1 p-8">
           <div className="max-w-7xl mx-auto">
@@ -23,8 +34,9 @@ const Index = () => {
               <h1 className="text-2xl font-semibold text-gray-900 dark:text-gray-100">Relatórios e Indicadores</h1>
               <div className="flex items-center gap-4">
                 <Toggle
-                  aria-label="Toggle theme"
-                  onClick={toggleTheme}
+                  aria-label="Alternar tema"
+                  pressed={theme === "dark"}
+                  onPressedChange={() => toggleTheme()}
                   className="p-2"
                 >
                   {theme === "dark" ? (
