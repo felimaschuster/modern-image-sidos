@@ -16,8 +16,13 @@ const Index = () => {
     setMounted(true);
   }, []);
 
+  // Função simplificada para alternar o tema
   const toggleTheme = () => {
-    setTheme(theme === "light" ? "dark" : "light");
+    if (theme === 'dark') {
+      setTheme('light');
+    } else {
+      setTheme('dark');
+    }
   };
 
   if (!mounted) {
@@ -36,7 +41,7 @@ const Index = () => {
                 <Toggle
                   aria-label="Alternar tema"
                   pressed={theme === "dark"}
-                  onPressedChange={() => toggleTheme()}
+                  onPressedChange={toggleTheme}
                   className="p-2"
                 >
                   {theme === "dark" ? (
